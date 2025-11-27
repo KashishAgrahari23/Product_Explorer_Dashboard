@@ -6,6 +6,7 @@ const FetchData = () => {
   const [data, setData] = useState([]);
   const [input, setInput] = useState("");
   const [debounced, setDebounced] = useState("");
+  const [sort , setSort] = useState("")
 
   useEffect(() => {
     async function Fetch() {
@@ -34,6 +35,24 @@ const FetchData = () => {
     setData(filtered);
   }, [debounced, prod]);
 
+  useEffect(()=>{
+    let sortedData = [...data]
+    if (sort==="Asc"){
+        sortedData.sort((a,b)=>a.price-b.price)
+    } 
+    else if (sort==="Desc"){
+        sortedData.sort((a,b)=>b.price-a.price)
+    } 
+    else if (sort==="Rating"){
+        sortedData.sort((a,b)=>b.rating.rate-a.rating.rate)
+    } 
+    else if (sort==="Alpha"){
+        sortedData.sort((a,b)=>a.title.localeCompare(b.title))
+    }
+
+    setData(sortedData)
+
+  },[sort])
   return (
     <div>
       <input
@@ -42,6 +61,13 @@ const FetchData = () => {
         type="text"
         placeholder='Type something...'
       />
+      <select name="" id="" value={sort} onChange={(e) => setSort(e.target.value)} className='border p-1 ml-2 bg-gray-900 text-black-500'>
+        <option value="" >Sort By</option>
+        <option value="Asc" >Price: Low → High</option>
+        <option value="Desc" >Price: High → Low</option>
+        <option value="Rating" >Rating: High → Low</option>
+        <option value="Alpha" >Alphabetical: A → Z</option>
+      </select>
 
       {!data.length ? (
         <p>No result found</p>
