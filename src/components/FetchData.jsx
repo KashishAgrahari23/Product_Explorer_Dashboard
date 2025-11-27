@@ -56,17 +56,17 @@ const FetchData = () => {
   },[sort])
 
   useEffect(()=>{
-    let filteredData= [...data]
+    let filteredData= [...prod]
     if (filter === "electronics") {
     filteredData = filteredData.filter(item => item.category === "electronics");
   } 
   else if (filter === "jewelery") {
     filteredData = filteredData.filter(item => item.category === "jewelery");
   } 
-  else if (filter === "men") {
+  else if (filter === "men's clothing") {
     filteredData = filteredData.filter(item => item.category === "men's clothing");
   } 
-  else if (filter === "women") {
+  else if (filter === "women's clothing") {
     filteredData = filteredData.filter(item => item.category === "women's clothing");
   }
   setData(filteredData)
@@ -91,8 +91,8 @@ const FetchData = () => {
         <option value="">Filter</option>
   <option value="electronics">Electronics</option>
   <option value="jewelery">Jewelery</option>  
-  <option value="men">Men's Clothing</option>
-  <option value="women">Women's Clothing</option>
+  <option value="men's clothing">Men's Clothing</option>
+  <option value="women's clothing">Women's Clothing</option>
       </select>
 
       {!data.length ? (
@@ -104,7 +104,6 @@ const FetchData = () => {
               <img className='h-24 w-24 object-contain mb-2' src={elem.image} alt="image" />
               <h3 className='font-semibold text-sm mb-1'>{elem.title}</h3>
               <h5 className='text-green-600 font-bold mb-1'>${elem.price}</h5>
-              <p className='text-xs mb-1'>{elem.description}</p>
               <h6 className='text-gray-500 text-xs'>{elem.category}</h6>
               <p className='text-xs mt-2'>
                 Rating: {elem.rating.rate}
