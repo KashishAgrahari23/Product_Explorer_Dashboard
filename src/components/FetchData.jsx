@@ -8,6 +8,8 @@ const FetchData = () => {
   const [debounced, setDebounced] = useState("");
   const [sort , setSort] = useState("")
   const [filter , setFilter] = useState("")
+  const [page , setPage] = useState(0)
+  
 
   useEffect(() => {
     async function Fetch() {
@@ -71,6 +73,24 @@ const FetchData = () => {
   }
   setData(filteredData)
   },[filter])
+ const limit =6
+const start = page*limit 
+const end = start+limit
+const pagData = data.slice(start,end)
+const totalPage= Math.ceil(data.length/limit)
+
+  const handleNext=()=>{
+    if(page<totalPage-1){
+        setPage((prev)=>prev+1)
+    }
+        
+  }
+
+  const handlePrev =()=>{
+    if(page>0){
+        setPage((prev)=>prev-1)
+    }
+  }
   return (
     <div>
       <input
@@ -98,8 +118,8 @@ const FetchData = () => {
       {!data.length ? (
         <p>No result found</p>
       ) : (
-        <div className='mt-10 grid grid-cols-4 p-3 gap-4'>
-          {data.map((elem) => (
+        <div className='mt-10 grid grid-cols-2 p-3 gap-4'>
+          {pagData.map((elem) => (
             <div key={elem.id} className='border border-gray-300 rounded p-3 flex flex-col items-center shadow'>
               <img className='h-24 w-24 object-contain mb-2' src={elem.image} alt="image" />
               <h3 className='font-semibold text-sm mb-1'>{elem.title}</h3>
@@ -113,6 +133,11 @@ const FetchData = () => {
           ))}
         </div>
       )}
+
+      <button onClick={handlePrev} disabled={page==0} className='border px-3 py-1' >Prev</button>
+      {page+1}
+      <button onClick={handleNext} disabled={page==Math.ceil(data.length/limit)-1} className='border px-3 py-1'>Next</button>
+
     </div>
   );
 };
