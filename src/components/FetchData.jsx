@@ -7,6 +7,7 @@ const FetchData = () => {
   const [input, setInput] = useState("");
   const [debounced, setDebounced] = useState("");
   const [sort , setSort] = useState("")
+  const [filter , setFilter] = useState("")
 
   useEffect(() => {
     async function Fetch() {
@@ -53,6 +54,23 @@ const FetchData = () => {
     setData(sortedData)
 
   },[sort])
+
+  useEffect(()=>{
+    let filteredData= [...data]
+    if (filter === "electronics") {
+    filteredData = filteredData.filter(item => item.category === "electronics");
+  } 
+  else if (filter === "jewelery") {
+    filteredData = filteredData.filter(item => item.category === "jewelery");
+  } 
+  else if (filter === "men") {
+    filteredData = filteredData.filter(item => item.category === "men's clothing");
+  } 
+  else if (filter === "women") {
+    filteredData = filteredData.filter(item => item.category === "women's clothing");
+  }
+  setData(filteredData)
+  },[filter])
   return (
     <div>
       <input
@@ -67,6 +85,14 @@ const FetchData = () => {
         <option value="Desc" >Price: High → Low</option>
         <option value="Rating" >Rating: High → Low</option>
         <option value="Alpha" >Alphabetical: A → Z</option>
+      </select>
+
+      <select name="" id="" value={filter} onChange={(e)=>setFilter(e.target.value)} className='border p-1 ml-2 bg-gray-900 text-black-500'>
+        <option value="">Filter</option>
+  <option value="electronics">Electronics</option>
+  <option value="jewelery">Jewelery</option>  
+  <option value="men">Men's Clothing</option>
+  <option value="women">Women's Clothing</option>
       </select>
 
       {!data.length ? (
